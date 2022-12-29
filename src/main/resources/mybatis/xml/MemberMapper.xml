@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.example.demo.mapper.MemberMapper">
+
+<resultMap type="com.example.demo.domain.MemberListVO" id="memberListResultMap">
+	<result column="number" jdbcType="VARCHAR" property="number" />
+	<result column="name" jdbcType="VARCHAR" property="name" />
+	<result column="tel" jdbcType="VARCHAR" property="tel" />
+	<result column="age" jdbcType="VARCHAR" property="age" />
+</resultMap>
+
+<!-- 회원 목록  -->
+<select id="memberList" resultMap="memberListResultMap" parameterType="com.example.demo.domain.MemberListVO"  >
+
+	select * from table1 order by number desc
+	limit #{start}, #{length}
+
+</select>
+
+<!-- 회원 등록  -->
+<insert id="enroll" parameterType="com.example.demo.domain.MemberListVO">
+
+	insert into table1(name, tel, age) values (#{name}, #{tel}, #{age})
+
+</insert>
+
+<!--  회원 수정  -->
+<update id="modify" parameterType="com.example.demo.domain.MemberListVO">
+
+    update table1
+    set name = #{name}, tel = #{tel}, age = #{age}
+    where number = #{number}
+        
+</update>
+
+<!--  회원 삭제  -->
+<delete id="delete" parameterType="com.example.demo.domain.MemberListVO">
+
+    delete from table1 where number = #{number}
+        
+</delete>
+
+<!-- 데이터 총 개수 가져오기 -->
+<select id="recordsTotal" resultType="int">
+
+	<![CDATA[select count(*) as totalCount from table1]]>
+
+</select>
+
+<!-- 회원 상세정보  -->
+<select id="memberDetail" resultMap="memberListResultMap" parameterType="com.example.demo.domain.MemberListVO">
+
+	select * from table1 where number = #{number}
+
+</select>
+
+
+</mapper>
